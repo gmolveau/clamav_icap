@@ -1,4 +1,5 @@
 FROM ubuntu:20.04
+# /!\ this image runs as root /!\
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV TZ=Europe/Paris
