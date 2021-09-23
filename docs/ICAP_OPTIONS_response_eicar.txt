@@ -1,0 +1,10 @@
+ICAP/1.0 200 OK
+Methods: RESPMOD, REQMOD
+Service: C-ICAP/0.5.3 server - Antivirus service
+ISTag: CI0001-5FtJYnwb3zUhn+mCUruoRwAA
+Transfer-Preview: *
+Options-TTL: 3600
+Date: Wed, 22 Sep 2021 09:11:27 GMT
+Preview: 1024
+Allow: 204
+Encapsulated: null-body=0

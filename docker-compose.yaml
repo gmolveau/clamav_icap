@@ -1,0 +1,8 @@
+version: '2'
+
+services:
+  clamav_icap:
+    build:
+      context: .
+    ports:
+      - 1344:1344

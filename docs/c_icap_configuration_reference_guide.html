@@ -1,0 +1,894 @@
+<html style><!--
+ Page saved with SingleFile 
+ url: http://c-icap.sourceforge.net/c-icap.conf-0.5.x.html 
+ saved date: Thu Sep 23 2021 11:22:37 GMT+0200 (Central European Summer Time)
+--><meta charset=utf-8>
+<title>The c-icap project </title>
+<meta name=keywords content="icap, squid, filtering, Content Filtering,web proxy, web, http">
+<style>a:link{text-decoration:none;color:#339CCB}a:visited{color:#339CCB}a:active{text-decoration:underline}a:hover{}h1,h2,h3{margin:0;padding:0;font-weight:normal;color:#3E3530}h1{font-size:2em}h2{font-size:2.8em}h3{font-size:1.6em}.menu{background:#FFFFFF;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#A19D9A;border-width:0px;margin-top:30px}.menu .header{font-weight:bold;font-size:1.8em;border-style:none;border-bottom-style:solid;border-bottom-width:1px}.menu .contents{color:#787878}.menu .contents ul{margin-top:0;line-height:180%}.menu .contents ul li{list-style-type:square;color:#787878;border-bottom:1px dotted #E7E2DC}.maindoc{float:left;margin:0;padding:20px;background:#FFFFFF;font-family:Arial,Helvetica,sans-serif;font-size:12px;color:#A19D9A;width:500px}.maindoc ul{line-height:180%}.advertise{margin-top:30px;width:270px;float:left}.extrasmall{background:#FFFFFF;font-family:Arial,Helvetica,sans-serif;font-size:0.5em;color:#A19D9A}.logo{background:#339CCB;letter-spacing:-1px;height:60px}.logo h1{color:#FFFFFF}.logo p{margin:0;font:normal 14px Georgia,"Times New Roman",Times,serif;font-style:italic;color:#FFFFFF}</style>
+<link type=image/x-icon rel="shortcut icon" href="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=="><link rel=canonical href=http://c-icap.sourceforge.net/c-icap.conf-0.5.x.html><meta http-equiv=content-security-policy content="default-src 'none'; font-src 'self' data:; img-src 'self' data:; style-src 'unsafe-inline'; media-src 'self' data:; script-src 'unsafe-inline' data:;"></head>
+<body>
+<div id=theHeader class=logo>
+<p>
+ <h1 align=center>The c-icap project</h1> 
+<p></p>
+</div>
+<div id=thePage width=900px>
+ <div id=theMenu width=200px style=float:left>
+ <table class=menu>
+ <tbody><tr>
+ <td class=header> Main <td>
+ </tr>
+ <tr>
+ <td class=contents>
+ <ul>
+ <li> <a href=http://c-icap.sourceforge.net/about.html target=_self>About c-icap</a></li>
+ <li> <a href=http://c-icap.sourceforge.net/documentation.html target=_self>Documentation/Wiki</a></li>
+ <li> <a href=http://c-icap.sourceforge.net/download.html target=_self>Downloads</a></li>
+ </ul>
+ </td>
+ </tr>
+ <tr>
+ <td class=header> Support <td>
+ </tr>
+ <tr>
+ <td class=contents>
+ <ul>
+ <li> <a href=http://c-icap.sourceforge.net/lists.html target=_self>Mailing lists</a></li>
+ <li> <a href="http://sourceforge.net/tracker/?func=&amp;group_id=123427&amp;atid=696477&amp;assignee=&amp;status=1&amp;category=&amp;artgroup=&amp;submitter=&amp;keyword=&amp;artifact_id=&amp;submit=Filter" target=_self>Search/Report for a bug</a></li>
+ <li> <a href=http://sourceforge.net/projects/c-icap target=_self>Sourceforge project page</a></li>
+ <li> <a href=https://github.com/c-icap/ target=_self> Github project page</a></li>
+ <li> <a href=http://c-icap.sourceforge.net/software.html target=_self>Related Software</a></li>
+ <li> <a href=http://c-icap.sourceforge.net/links.html target=_self>Links</a></li>
+ </ul>
+ <ul>
+ <li> <a href=http://c-icap.sourceforge.net/commercial_support.html target=_self>Commercial support</a></li>
+ </ul>
+ </table>
+ </div>
+ <div id=mainDoc class=maindoc>
+<h2>C-icap-0.5.x Configuration Reference</h2>
+<h3>Modules/Subsystems</h3><ul><li><a href="#mod_c-icap's_core"> c-icap's core </a> </li>
+<li><a href=#mod_echo> echo </a> </li>
+<li><a href=#mod_sys_logger> sys_logger </a> </li>
+<li><a href=#mod_bdb_tables> bdb_tables </a> </li>
+<li><a href=#mod_dnsbl_tables> dnsbl_tables </a> </li>
+<li><a href=#mod_ldap_module> ldap_module </a> </li>
+<li><a href=#mod_memcached> memcached </a> </li>
+</ul><h3>Configuration parameters</h3>
+<h3> <a name="mod_c-icap's_core">c-icap's core configuration</a></h3>
+<ul><li><a href=#tag_PidFile> PidFile </a> </li>
+<li><a href=#tag_CommandsSocket> CommandsSocket </a> </li>
+<li><a href=#tag_Timeout> Timeout </a> </li>
+<li><a href=#tag_MaxKeepAliveRequests> MaxKeepAliveRequests </a> </li>
+<li><a href=#tag_KeepAliveTimeout> KeepAliveTimeout </a> </li>
+<li><a href=#tag_StartServers> StartServers </a> </li>
+<li><a href=#tag_MaxServers> MaxServers </a> </li>
+<li><a href=#tag_MinSpareThreads> MinSpareThreads </a> </li>
+<li><a href=#tag_MaxSpareThreads> MaxSpareThreads </a> </li>
+<li><a href=#tag_ThreadsPerChild> ThreadsPerChild </a> </li>
+<li><a href=#tag_MaxRequestsPerChild> MaxRequestsPerChild </a> </li>
+<li><a href=#tag_InterProcessSharedMemScheme> InterProcessSharedMemScheme </a> </li>
+<li><a href=#tag_InterProcessLockingScheme> InterProcessLockingScheme </a> </li>
+<li><a href=#tag_Port> Port </a> </li>
+<li><a href=#tag_TlsPort> TlsPort </a> </li>
+<li><a href=#tag_TlsPassphrase> TlsPassphrase </a> </li>
+<li><a href=#tag_User> User </a> </li>
+<li><a href=#tag_Group> Group </a> </li>
+<li><a href=#tag_ServerAdmin> ServerAdmin </a> </li>
+<li><a href=#tag_ServerName> ServerName </a> </li>
+<li><a href=#tag_TmpDir> TmpDir </a> </li>
+<li><a href=#tag_MaxMemObject> MaxMemObject </a> </li>
+<li><a href=#tag_DebugLevel> DebugLevel </a> </li>
+<li><a href=#tag_Pipelining> Pipelining </a> </li>
+<li><a href=#tag_SupportBuggyClients> SupportBuggyClients </a> </li>
+<li><a href=#tag_Allow204As200okZeroEncaps> Allow204As200okZeroEncaps </a> </li>
+<li><a href=#tag_FakeAllow204> FakeAllow204 </a> </li>
+<li><a href=#tag_ModulesDir> ModulesDir </a> </li>
+<li><a href=#tag_ServicesDir> ServicesDir </a> </li>
+<li><a href=#tag_TemplateDir> TemplateDir </a> </li>
+<li><a href=#tag_TemplateDefaultLanguage> TemplateDefaultLanguage </a> </li>
+<li><a href=#tag_LoadMagicFile> LoadMagicFile </a> </li>
+<li><a href=#tag_RemoteProxyUsers> RemoteProxyUsers </a> </li>
+<li><a href=#tag_RemoteProxyUserHeader> RemoteProxyUserHeader </a> </li>
+<li><a href=#tag_RemoteProxyUserHeaderEncoded> RemoteProxyUserHeaderEncoded </a> </li>
+<li><a href=#tag_AuthMethod> AuthMethod </a> </li>
+<li><a href=#tag_basic_Realm> basic.Realm </a> </li>
+<li><a href=#tag_basic_simple_db_UsersDB> basic_simple_db.UsersDB </a> </li>
+<li><a href=#tag_GroupSourceByGroup> GroupSourceByGroup </a> </li>
+<li><a href=#tag_GroupSourceByUser> GroupSourceByUser </a> </li>
+<li><a href=#tag_acl> acl </a> </li>
+<li><a href=#tag_icap_access> icap_access </a> </li>
+<li><a href=#tag_client_access> client_access </a> </li>
+<li><a href=#tag_LogFormat> LogFormat </a> </li>
+<li><a href=#tag_ServerLog> ServerLog </a> </li>
+<li><a href=#tag_AccessLog> AccessLog </a> </li>
+<li><a href=#tag_Logger> Logger </a> </li>
+<li><a href=#tag_Module> Module </a> </li>
+<li><a href=#tag_Service> Service </a> </li>
+<li><a href=#tag_ServiceAlias> ServiceAlias </a> </li>
+<li><a href=#tag_General_configuration_parameters_for_all_services> General configuration parameters for all services </a> </li>
+</ul>
+<h3> <a name=mod_echo>echo configuration</a></h3>
+<i>Description:</i> <blockquote> <pre>Simple test service</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Service echo srv_echo.so</pre> </blockquote> 
+<ul></ul>
+<h3> <a name=mod_sys_logger>sys_logger configuration</a></h3>
+<i>Description:</i> <blockquote> <pre>Add support for logging access and server events to syslog server
+Use "Module" configuration parameter to load this module and "Logger"
+to make it default logger for the c-icap.</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Module logger sys_logger.so
+Logger sys_logger</pre> </blockquote> 
+<ul><li><a href=#tag_sys_logger_Prefix> sys_logger.Prefix </a> </li>
+<li><a href=#tag_sys_logger_Facility> sys_logger.Facility </a> </li>
+<li><a href=#tag_sys_logger_access_priority> sys_logger.access_priority </a> </li>
+<li><a href=#tag_sys_logger_server_priority> sys_logger.server_priority </a> </li>
+<li><a href=#tag_sys_logger_LogFormat> sys_logger.LogFormat </a> </li>
+<li><a href=#tag_sys_logger_access> sys_logger.access </a> </li>
+</ul>
+<h3> <a name=mod_bdb_tables>bdb_tables configuration</a></h3>
+<i>Description:</i> <blockquote> <pre>Add support for Berkeley DB based lookup tables. The format for
+bdb path of the lookup table is:
+	bdb:/path/to/bdb[{param1=val, ...}]
+bdb table parameters can be one or more of the followings:
+    cache-size=Size[K|M]
+          The cache size to use. Default is the berkeleyDB default value.
+    cache-num=num
+        The number of caches to create. The cache will be split across
+        num separate regions, where the region size is equal to the
+        initial cache size divided by ncache.
+Use the c-icap-mkbdb utility to build Berkeley DB c-icap lookup tables</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Module common bdb_tables.so</pre> </blockquote> 
+<ul></ul>
+<h3> <a name=mod_dnsbl_tables>dnsbl_tables configuration</a></h3>
+<i>Description:</i> <blockquote> <pre>Add support for dns lookup tables. Can be used to access
+dns block lists. The dnsbl lookup table path definition is:
+    dnsbl:domainname[{param1=val, ...}]
+  dnsbl table parameters can be one or more of the followings:
+       cache=no|cache_type
+          The cache type to use or 'no' for no cache.
+       cache-size=Size[K|M]
+          The cache size in RAM
+       cache-ttl=ttl
+          The cache ttl to use
+
+For example the lookup table  for accessing the black.uribl.com
+dns black list is:
+    dnsbl:black.uribl.com</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Module common dnsbl_tables.so</pre> </blockquote> 
+<ul></ul>
+<h3> <a name=mod_ldap_module>ldap_module configuration</a></h3>
+<i>Description:</i> <blockquote> <pre>Add LDAP support to c-icap. The user can use LDAP based lookup tables
+using the following lookup table paths:
+      ldap://[username:password@]ldapserver?base?attr1,attr2?filter[{[param=value, ...]}]
+      ldaps://...
+      ldapi://...
+The filter can contain the "%s" formating code which will be replaced by
+the search key.
+ldap table parameters can be one or more of the followings:
+     name=aName
+	A unique name to use for this table
+     cache=no|cache_type
+	The cache type to use or no for no cache.
+     cache-size=Size[K|M]
+	The cache size in RAM
+     cache-ttl=ttl
+	The cache ttl to use
+     cache-item-size=ItemSize[K|M]
+	The maximum item size
+
+Examples of supported ldap urls:
+     ldap://ldap.chtsanti.net?o=chtsanti?cn,uid?uid=%s{cache=memcached}
+     ldap://cn=Directory Manager:Apassword@ldap.chtsanti.net?o=chtsanti?mermberUid?(&amp;(objectClass=posixGroup)(cn=%s))
+
+WARNING: is not enough tested it may contain bugs!</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Module common ldap_module.so</pre> </blockquote> 
+<ul></ul>
+<h3> <a name=mod_memcached>memcached configuration</a></h3>
+<i>Description:</i> <blockquote> <pre>  Add support for memcached c-icap cache.</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>  Module common memcached.so</pre> </blockquote> 
+<ul><li><a href=#tag_memcached_servers> memcached.servers </a> </li>
+<li><a href=#tag_memcached_use_md5_keys> memcached.use_md5_keys </a> </li>
+</ul>
+<hr>
+<h3>Configuration parameters description</h3>
+<dl>
+<dt> <b><i> <a name=tag_PidFile>PidFile</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>PidFile pid_file</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The file to store the pid of the main process of the c-icap server.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>PidFile /var/run/c-icap/c-icap.pid</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_CommandsSocket>CommandsSocket</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>CommandsSocket socket_file</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The path of file to use as control socket for c-icap</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>CommandsSocket /var/run/c-icap/c-icap.ctl</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Timeout>Timeout</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Timeout seconds</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The time in seconds after which a connection without activity
+can be cancelled.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>Timeout 300</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_MaxKeepAliveRequests>MaxKeepAliveRequests</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>MaxKeepAliveRequests number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The maximum number of requests can be served by one connection
+Set it to -1 for no limit</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>MaxKeepAliveRequests 100</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_KeepAliveTimeout>KeepAliveTimeout</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>KeepAliveTimeout seconds</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The maximum time in seconds waiting for a new requests before a
+connection will be closed.
+If the value is set to -1, there is no timeout.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>KeepAliveTimeout 600</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_StartServers>StartServers</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>StartServers number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The initial number of server processes. Each server process
+generates a number of threads, which serve the requests.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>StartServers 3</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_MaxServers>MaxServers</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>MaxServers number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The maximum allowed number of server processes.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>MaxServers 10</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_MinSpareThreads>MinSpareThreads</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>MinSpareThreads number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>If the number of the available threads is less than number,
+the c-icap server starts a new child.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>MinSpareThreads     10</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_MaxSpareThreads>MaxSpareThreads</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>MaxSpareThreads number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>If the number of the available threads is more than number then
+the c-icap server kills a child.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>MaxSpareThreads     20</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ThreadsPerChild>ThreadsPerChild</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre> ThreadsPerChild number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The number of threads per child process.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>ThreadsPerChild     10</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_MaxRequestsPerChild>MaxRequestsPerChild</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>MaxRequestsPerChild number</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The maximum number of requests that a child process can serve.
+After this number has been reached, process dies. The goal of this
+parameter is to minimize the risk of memory leaks and increase the
+stability of c-icap. It can be disabled by setting its value to 0.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>MaxRequestsPerChild  0</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_InterProcessSharedMemScheme>InterProcessSharedMemScheme</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>InterProcessSharedMemScheme posix | mmap | sysv</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The interprocess shared mem scheme to use. Available schemes:
+posix Use posix shared memory (shm_open interface)
+mmap  Use anonymous mmaped files as shared memory
+sysv  use the sysv ipc shared memory</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>InterProcessSharedMemScheme posix</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_InterProcessLockingScheme>InterProcessLockingScheme</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>InterProcessSharedMemScheme file | sysv | posix</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The interprocess locking scheme to use. Available schemes:
+  file  Use lock file
+  sysv  Use the sysv ipc semaphores
+posix Use posix semaphores: Use it with caution you may experienced
+        locking problems if one or more processes crashed.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>InterProcessLockingScheme file</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Port>Port</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Port [address:]port</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The port number that the c-icap server uses to listen to requests.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>None</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Port 192.168.1.1:1344
+Port [::1]:1346</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_TlsPort>TlsPort</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>TlsPort [address:]port [tls-method=method] [cert=path_to_pem_cert] [key=path_to_pem_key] [client_ca=path_to_pem_file] [ciphers=ciph1:ciph2...] [tls_options=[!]Opt1|[!]Opt2|...]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>  The port number that the c-icap server uses to listen for TLS/SSL
+requests. Options:
+tls-method
+	Set the SSL method to use. Available methods are:
+	  SSLv23 TLSv1_2 TLSv1_1 TLSv1 SSLv3 SSLv2
+	Deprecated, please do not use.
+cert
+	Set the certificate to use by the icap server. The certificate
+	should be in pem format.
+key
+	The key of the configured certificate in pem format. If none
+	set then the c-icap searches for the key inside cert file.
+client_ca
+	File containing all CA that we accept client certs from. If it
+	is set then c-icap enables client certificates verification.
+cafile
+	PEM file containing CA certificates to use when verifying client
+	certificates. If not configured the root.pem file will be used.
+capath
+	Directory containing additional CA certificates to use when
+	verifying client certificates.
+ciphers
+	Collon separated lists of the ciphers to accept. Please check
+	openSSL manual for supported ciphers.
+tls-options
+	Sets various options:
+	SSL_OP_NO_SSLv2  disable the use of SSLv2
+	SSL_OP_NO_SSLv3  disable the use of SSLv3
+	SSL_OP_NO_TLSv1  disable the use of TLSv1
+	SSL_OP_NO_TLSv1_2 disable the use of TLSv1.2
+	SSL_OP_NO_TLSv1_1 disable the use of TLSv1.1
+	SSL_OP_NO_TICKET  disable the use of RFC5077 session tickets
+	SSL_OP_NO_SESSION_RESUMPTION_ON_RENEGOTIATION
+	   When performing renegotiation as a server, always start a
+	   new session.
+	SSL_OP_ALLOW_UNSAFE_LEGACY_RENEGOTIATION
+	   Allow legacy insecure renegotiation between OpenSSL and
+	   unpatched clients or servers.
+	
+	For more options please see the SSL_set_options documentation.
+	
+	By default the SSL_OP_ALL flag is set which enables all of the
+	important bug workarrounds. To reset this flag use the
+	"!SSL_OP_ALL" as first flag:
+		tls-options=!SSL_OP_ALL:SSL_OP_NO_TICKET
+	</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>  None</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_TlsPassphrase>TlsPassphrase</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>TlsPassphrase /path/to/script</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Path to the script to run to get the passphrases of TLS certificates
+keys. The c-icap will pass as arguments the IP address and port number
+to the script.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>TlsPassphrase /use/local/c-icap/scripts/cert-passphrase.sh</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_User>User</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>User username</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The user owning c-icap's processes. By default, the owner is the
+user who runs the program.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>User wwwrun</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Group>Group</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Group groupname</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The group of users owning c-icap's processes, which, by default
+is the group of the current user.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Group nogroup</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ServerAdmin>ServerAdmin</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>ServerAdmin admin_mail</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The Administrator of this server. Used when displaying information
+about this server (logs, info service, etc)</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ServerName>ServerName</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>ServerName aServerName</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>A name for this server. Used when displaying information about this
+server (logs, info service, etc)</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_TmpDir>TmpDir</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>TmpDir dir</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>dir is the location of temporary files.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>TmpDir /var/tmp</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_MaxMemObject>MaxMemObject</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>MaxMemObject bytes</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The maximum memory size in bytes taken by an object which
+is processed by c-icap . If the size of an object's body is
+larger than the maximum size a temporary file is used.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>MaxMemObject 131072</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_DebugLevel>DebugLevel</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>DebugLevel level</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The level of debugging information to be logged.
+The acceptable range of levels is between 0 and 10.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>DebugLevel 1</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Pipelining>Pipelining</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Pipelining on|off</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Enable or disable ICAP requests pipelining</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>Pipelining on</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_SupportBuggyClients>SupportBuggyClients</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre></pre> </blockquote>
+<i>Description:</i> <blockquote> <pre></pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Allow204As200okZeroEncaps>Allow204As200okZeroEncaps</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Allow204As200okZeroEncaps</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>When used the c-icap instead of allow 204 return "200 OK" responses
+with zero encapsulated entities.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No set</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_FakeAllow204>FakeAllow204</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>FakeAllow204 on|off</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Support 204 responses from services preview handler to the clients
+which does not support preview. Requires early responses support
+from clients.
+If disabled the c-icap will return 500 response in these cases</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ModulesDir>ModulesDir</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>ModulesDir dir</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The location of modules</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>ModulesDir @PKGLIBDIR@</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ServicesDir>ServicesDir</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>ServicesDir dir</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The location of services</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>ServicesDir @PKGLIBDIR@</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_TemplateDir>TemplateDir</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>TemplateDir dir</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The location of the text templates used by c-icap and its services,
+categorized by language and services/modules</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre></pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_TemplateDefaultLanguage>TemplateDefaultLanguage</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>TemplateDefaultLanguage lang</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Sets the default language to use for text templates</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>TemplateDefaultLanguage en</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_LoadMagicFile>LoadMagicFile</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>LoadMagicFile path</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Load a c-icap magic file. A magic file contains various
+data type definitions. Look inside default c-icap.magic file
+for more informations.
+It can be used more than once to use multiple magic files.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>LoadMagicFile @SYSCONFDIR@/c-icap.magic</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_RemoteProxyUsers>RemoteProxyUsers</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>RemoteProxyUsers onoff</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Set it to on if you want to use username provided by the proxy server.
+This is the recomended way to use users in c-icap.
+If the RemoteProxyUsers is off and c-icap configured to use users or
+groups the internal authentication mechanism will be used.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>RemoteProxyUsers off</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_RemoteProxyUserHeader>RemoteProxyUserHeader</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>RemoteProxyUserHeader Header</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Used to specify the icap header used by the proxy server to send
+the authenticated client username to c-icap server</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>RemoteProxyUserHeader X-Authenticated-User</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_RemoteProxyUserHeaderEncoded>RemoteProxyUserHeaderEncoded</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>RemoteProxyUserHeaderEncoded onoff</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Set it to off if the RemoteProxyUserHeader is not base64 encoded</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>RemoteProxyUserHeaderEncoded on</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_AuthMethod>AuthMethod</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>AuthMethod Method Authenticator</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Used to define the internal authentication mechanism to use. This
+feature is not well tested and may cause problems. It is better to use
+RemoteProxyUser configuration.
+Method is the authentication method to use (basic, digest, etc).
+Currently only basic authentication method is implemented as build in
+module
+Authenticator currently can only be "basic_simple_db"
+It can be considered as a user/password store and can be
+implemented as external module. The basic_simple_db is implemented as
+build it module</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>AuthMethod basic basic_simple_db</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_basic_Realm>basic.Realm</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>basic.Realm ARealm</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Specify the basic method realm</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>basic.Realm "Basic authentication"</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>basic.Realm "c-icap server authentication"</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_basic_simple_db_UsersDB>basic_simple_db.UsersDB</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>basic_simple_db.UsersDB LookupTable</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Specify the lookup table where the usernames/passwords pairs
+are stored. The paswords must be unencrypted
+For more information about c-icap lookup tables read c-icap server
+manual page</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No value</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>basic_simple_db.UsersDB hash:/usr/local/c-icap/etc/c-icap-users.txt</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_GroupSourceByGroup>GroupSourceByGroup</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>GroupSourceByGroup LookupTable</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Defines a lookup table where the groups of users are stored indexed
+by group. It can be used more than once.
+For more information about c-icap lookup tables read c-icap server
+manual page</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>GroupSourceByGroup hash:/usr/local/c-icap/etc/c-icap-groups.txt</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_GroupSourceByUser>GroupSourceByUser</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>GroupSourceByUser LookupTable</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Defines a lookup table where the groups of users are stored indexed
+by user. It can be used more than once.
+For more information about c-icap lookup tables read c-icap server
+manual page</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>No set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>GroupSourceByUser hash:/usr/local/c-icap/etc/c-icap-user-groups.txt</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_acl>acl</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>acl name type[{param}] value1 [value2] [...]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Supported acl types are:
+	acl aclname service service1 ...
+	     The servicename
+	acl aclname type OPTIONS|RESPMOD|REQMOD ...
+	     The icap method
+	acl aclname port port1 ...
+	     The icap server port
+	acl aclname src ip1/netmask1 ...
+	     The client ip address
+	acl aclname srvip ip1/netmask1 ...
+	     The c-icap server ip address
+	acl aclname icap_header{HeaderName} value1 ...
+	     Matches the icap header HeaderName with value1 ...
+	     The values are in regex form: /avalue/flags
+	acl aclname icap_resp_header{HeaderName} value1 ...
+	     The icap response header
+	     The values are in regex form: /avalue/flags
+	acl aclname http_req_header{HeaderName} value1 ...
+	     The http request header
+	     The values are in regex form: /avalue/flags
+	acl aclname http_resp_header{HeaderName} value1 ...
+	     The http response header
+	     The values are in regex form: /avalue/flags
+	acl aclname data_type type1 ...
+	     The data type as recognized by the internal data type
+	     recognizer. The types are defined in c-icap.magic file
+	acl aclname auth username|* ...
+	     The authenticated users. Using * instead of username means
+	     all users.
+	acl aclname group group1 ...
+	     if the user of request belongs to given groups
+	acl content_length{&gt;|&lt;|=} value1 ...
+	     The content length of body data if the related information
+	     included in http headers.
+	     The parameter can take the value &lt;, &gt; or = to specify that
+	     the acl will match if content length is less, greater or
+	     equal to acl values.
+	acl time value1 ....
+	     It checks agains current time. The values format is:
+	     [DAY[,DAY,[..]]][/][HH:MM-HH:MM]
+	     The DAY can be one of the following:
+		S - Sunday
+		M - Monday
+		T - Tuesday
+		W - Wednesday
+		H - Thursday
+		F - Friday
+		A - Saturday
+	acl http_client_ip ip1[/netmask1] ...
+	     The HTTP client ip address, if it is available.
+	acl http_req_line value1 ...
+	     The first line of HTTP request
+	     The values are in regex form: /avalue/flags
+	acl http_resp_line value1 ...
+	     The first line of HTTP response
+	     The values are in regex form: /avalue/flags
+	acl http_req_url value1 ...
+	     The HTTP request url without GET request arguments
+	     The values are in regex form: /avalue/flags
+	acl http_req_method value1 ...
+	     The HTTP request method</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_icap_access>icap_access</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>icap_access allow|deny [!]acl1 ...</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Allowing or denying ICAP access based on defined access lists</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>None set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>icap_access deny XHEAD
+#Allow OPTIONS method for all:
+icap_access allow localnet OPTIONS
+#Require authentication for all users from local network:
+icap_access allow AUTH localnet
+icap_access deny all</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_client_access>client_access</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>client_access allow|deny acl1 [acl2] [...]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Allowing or denying connections on c-icap based on
+defined access lists. Only the acl types src, srvip and port
+can be used.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>None set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>client_access allow all</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_LogFormat>LogFormat</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>LogFormat Name Format</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Name is a name for this log format.
+Format is a string with embedded % format codes. % format codes
+has the following form:
+    % [-] [width] [{argument}] formatcode
+    if - is specified then the output is left aligned
+    if width specified then the field is exactly width size
+    some formatcodes support arguments given as {argument}
+
+Format codes:
+       %a:  Remote IP-Address
+       %la: Local IP Address
+       %lp: Local port
+       %&gt;a: Http Client IP Address. Only supported if the proxy
+       	    client supports the "X-Client-IP" header
+       %&lt;A: Http Server IP Address. Only supported if the proxy
+       	    client supports the "X-Server-IP" header
+       %ts: Seconds since epoch
+       %tl: Local time. Supports optional strftime format argument
+       %tg: GMT time. Supports optional strftime format argument
+       %&gt;ho: Modified Http request header. Supports header name
+       	     as argument. If no argument given the first line returned
+       %huo: Modified Http request url
+       %&lt;ho: Modified Http reply header. Supports header name
+       	     as argument. If no argument given the first line returned
+       %iu: Icap request url
+       %im: Icap method
+       %is: Icap status code
+       %&gt;ih: Icap request header. Supports header name
+       	     as argument. If no argument given the first line returned
+       %&lt;ih: Icap response header. Supports header name
+       	     as argument. If no argument given the first line returned
+       %Ih: Http bytes received
+       %Oh: Http bytes sent
+       %Ib: Http body bytes received
+       %Ob: Http body bytes sent
+       %I: Bytes received
+       %O: Bytes sent
+       %bph: The first 5 bytes of the body preview data. Non
+       	     printable characters printed in hex form.
+       	     Supports the number of bytes to output as argument.
+       %un: Username
+       %Sl: Service log string
+         %Sa: Attribute value set by service. The attribute name must
+              given as argument.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>None set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>LogFormat myFormat "%tl, %a %im %iu %is %I %O %Ib %Ob %{10}bph"</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ServerLog>ServerLog</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>ServerLog LogFile</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>the file used by the build-in logger file_logger to
+store debugging information, errors and other
+information about the c-icap server.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>ServerLog @prefix@/var/log/server.log</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_AccessLog>AccessLog</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>AccessLog LogFile [LogFormat] [[!]acl1] [[!]acl2] [...]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>LogFile is a file where to log access information.
+LogFormat is the log format to use. If ommited c-icap uses:
+ 	"%tl, %la %a %im %iu %is"
+Also acls can be used to select certain requests to be logged.
+This directive can be used more than once to specify more than
+one access log files</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>AccessLog @prefix@/var/log/access.log</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>AccessLog @prefix@/var/log/access.log MyFormat all</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Logger>Logger</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Logger LoggerName</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Specify wich logger to use. By default uses the build in "file_logger" which
+uses files for access and server logging.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>Logger file_logger</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Logger sys_logger</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Module>Module</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Module Type ModuleFile [forceUnload=off]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Load an external module/plugin to c-icap.
+ModuleFile is the filename of the module. If no full path given then
+the c-icap uses the path defined by the ModulesDir configuration
+parameter.
+Type is the type of the external module and can be one of the following:
+	"logger" for modules implement a logger
+	"common" for general purpose modules
+forceUnload=off
+	Forces c-icap to not unload services/modules loaded as external
+	dynamic libraries on shutdown or reconfigure.
+	This option may required when the services/modules are using
+	c++, or they are linked with c++ libraries.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Module logger sys_logger.so</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_Service>Service</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>Service aName ServiceFile [forceUnload=off]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>It loads the service ServiceFile. The argument aName used
+as alias name for the service
+forceUnload=off
+	Forces c-icap to not unload services/modules loaded as external
+	dynamic libraries on shutdown or reconfigure.
+	This option may required when the services/modules are using
+	c++, or they are linked with c++ libraries.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_ServiceAlias>ServiceAlias</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>ServiceAlias AliasName ServiceName[?param1=value1¶m2=value2...]</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Used to define an alias name for a service.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>ServiceAlias avscan srv_clamav?allow204=on&amp;sizelimit=off&amp;mode=simple</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_General_configuration_parameters_for_all_services>General configuration parameters for all services</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre></pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>PreviewSize: The preview data size to advertise to the icap client
+MaxConnections: The client should not use more than MaxConnections
+	for this service.
+TransferPreview: The list of file extensions, seperated by commas,
+	for which the client should send preview data.
+TransferIgnore: The list of file extensions that should not be sent
+	to the icap server
+TransferComplete: The list of file extensions that should be sent
+	in their entirety, without preview, to the icap server
+OptionsTTL: The options ttl for the service. The "sec[s]", "min" or
+	"hour[s]" can be used to secify that the time is in seconds
+	minutes or hours respectively. If no time-units given
+	seconds are assumed.
+Allow206 on|off: Enable/disable advertise of 206 responses.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre></pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_sys_logger_Prefix>sys_logger.Prefix</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>sys_logger.Prefix string</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre> string is be presented in every syslog message.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>sys_logger.Prefix "C-ICAP:"</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_sys_logger_Facility>sys_logger.Facility</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>sys_logger.Facility daemon|user|local1|local2|local3|local4|local5|local6|local7</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>specifies the facility type of syslog.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>sys_logger.Facility daemon</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_sys_logger_access_priority>sys_logger.access_priority</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>sys_logger.access_priority alert|crit|debug|emerg|err|info|notice|warning</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>determines  the  importance  of the access log message</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>sys_logger.access_priority info</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_sys_logger_server_priority>sys_logger.server_priority</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>sys_logger.server_priority alert|crit|debug|emerg|err|info|notice|warning</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>determines  the  importance  of the server log message</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>sys_logger.server_priority crit</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_sys_logger_LogFormat>sys_logger.LogFormat</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>sys_logger.LogFormat LOGFORMAT</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>The log format to use. If no log format defined then
+the following will be used:
+    "%la %a %im %iu %is"</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>None set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>Logformat BasicFormat "%la %a %im %iu %is"
+sys_logger.LogFormat BasicFormat</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_sys_logger_access>sys_logger.access</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>sys_logger.access [!]acl1 ...</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Allow selecting ICAP requests to be logged using acls.
+By default all requests will be logged.</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>None set</pre> </blockquote> 
+<i>Example:</i> <blockquote> <pre>sys_logger.access all</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_memcached_servers>memcached.servers</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>memcached.servers hostname1 hostname2 ...</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Set the memcached servers to use</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>memcached.servers 127.0.0.1</pre> </blockquote> 
+</dl>
+<dl>
+<dt> <b><i> <a name=tag_memcached_use_md5_keys>memcached.use_md5_keys</a></i></b></dt>
+<dd>
+<i>Format:</i> <blockquote> <pre>memcached.use_md5_keys on|off</pre> </blockquote>
+<i>Description:</i> <blockquote> <pre>Whether to use or not md5 hash as key when the key exceeds the
+MEMCACHED_MAX_KEY (normaly 251 bytes)</pre> </blockquote> 
+<i>Default:</i> <blockquote> <pre>memcached.use_md5_keys on</pre> </blockquote> 
+</dl>
+ 
+ </div>
+ <div id=advPlace class=advertise>
+ 
+ </div>
+ <div style=clear:both></div>
+</div> 
+<div id=theFooter class=footer>
+ <hr width=80%>
+ <p class=extrasmall align=center>
+ © Tsantilas Christos, email: chtsanti at users dot sourceforge dot net
+ </p>
+</div>
